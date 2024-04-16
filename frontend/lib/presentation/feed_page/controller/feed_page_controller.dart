@@ -48,7 +48,7 @@ class FeedPageController extends ChangeNotifier {
     });
   }
 
-  void fetchComments(id, context) {
+   fetchComments(id, context) {
     isLoadingComments = true;
     notifyListeners();
     FeedPageService.fetchComments(id).then((value) {
@@ -57,6 +57,18 @@ class FeedPageController extends ChangeNotifier {
         isLoadingComments = false;
       } else {
         AppUtils.oneTimeSnackBar("error", context: context);
+      }
+      notifyListeners();
+    });
+  }
+
+  void postComment(id, text, context) {
+    var data = {"text": "$text"};//TODO comment json
+    FeedPageService.postComment(id, data).then((value) {
+      if (value["status"] == 1) {
+        AppUtils.oneTimeSnackBar("commented", context: context);
+      } else {
+        AppUtils.oneTimeSnackBar("error", context: context, bgColor: Colors.redAccent);
       }
       notifyListeners();
     });
