@@ -1,7 +1,11 @@
+import 'dart:convert';
 import 'dart:developer';
 
 import 'package:recipe_app/core/app_utils.dart';
 import 'package:recipe_app/repository/helper/api_helper.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import '../../../../app_config/app_config.dart';
 
 class FeedPageService {
   static Future<dynamic> fetchData() async {
@@ -50,10 +54,21 @@ class FeedPageService {
   static Future<dynamic> postComment(id,data) async {
 
     try {
+      Future<String?> getAccessToken() async {
+        SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+        String? tokenJsonString = sharedPreferences.getString(AppConfig.loginData);
+        if (tokenJsonString != null) {
+          Map<String, dynamic> tokenData = jsonDecode(tokenJsonString);
+          String? accessToken = tokenData['tokens']['access'];
+          return accessToken;
+        }
+        return null;
+      }
+      String? accessToken = await getAccessToken();
       var decodedData = ApiHelper.postData(
           endPoint: "recipe/$id/comment/",
           body: data,
-          header: ApiHelper.getApiHeader(access: await AppUtils.getAccessToken()));
+          header: {"Authorization": "Bearer $accessToken"});
       return decodedData;
     } catch (e) {
       log("$e");

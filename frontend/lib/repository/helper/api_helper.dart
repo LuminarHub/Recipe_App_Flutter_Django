@@ -141,7 +141,7 @@ class ApiHelper {
     try {
       var response = await http.post(url, body: body, headers: header);
       log("ApiHelper>>Api Called => status code=${response.statusCode}");
-      if (response.statusCode == 200) {
+      if (response.statusCode == 200||response.statusCode == 201) {
         var decodedData = jsonDecode(response.body);
         return decodedData;
       } else {

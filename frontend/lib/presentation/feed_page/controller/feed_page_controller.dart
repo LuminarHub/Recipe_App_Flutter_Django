@@ -65,7 +65,7 @@ class FeedPageController extends ChangeNotifier {
   void postComment(id, text, context) {
     var data = {"text": "$text"};//TODO comment json
     FeedPageService.postComment(id, data).then((value) {
-      if (value["status"] == 1) {
+      if (value["status"] !=0) {
         AppUtils.oneTimeSnackBar("commented", context: context);
       } else {
         AppUtils.oneTimeSnackBar("error", context: context, bgColor: Colors.redAccent);
