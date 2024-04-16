@@ -46,4 +46,17 @@ class FeedPageService {
       log("$e");
     }
   }
+
+  static Future<dynamic> postComment(id,data) async {
+
+    try {
+      var decodedData = ApiHelper.postData(
+          endPoint: "recipe/$id/comment/",
+          body: data,
+          header: ApiHelper.getApiHeader(access: await AppUtils.getAccessToken()));
+      return decodedData;
+    } catch (e) {
+      log("$e");
+    }
+  }
 }
