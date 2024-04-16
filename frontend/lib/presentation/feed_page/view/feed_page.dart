@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:recipe_app/global_widget/comment_screen.dart';
 import 'package:recipe_app/global_widget/feed_widget/feed_widget.dart';
 
+import '../../user_profile/controller/user_profile_controller.dart';
 import '../controller/feed_page_controller.dart';
 
 class FeedPage extends StatefulWidget {
@@ -23,6 +24,7 @@ class _FeedPageState extends State<FeedPage> {
 
   @override
   Widget build(BuildContext context) {
+    var pro = Provider.of<UserProfileController>(context);
     return Scaffold(
       // backgroundColor: Colors.orange[300],
       appBar: AppBar(
@@ -54,35 +56,57 @@ class _FeedPageState extends State<FeedPage> {
                           //vnm enkil vere edit akenm
                           child: FeedWidget(
                             // profPic: fContro.feedModel.data![index].picture.toString(),
-                            name: fContro.feedModel.data![index].username.toString(),
-                            timePosted: fContro.feedModel.data![index].cookTime.toString(),
-                            descriptionPosted: fContro.feedModel.data![index].procedure.toString(),
-                            imagePosted: fContro.feedModel.data![index].picture.toString(),
+                            name: fContro.feedModel.data![index].username
+                                .toString(),
+                            timePosted: fContro.feedModel.data![index].cookTime
+                                .toString(),
+                            descriptionPosted: fContro
+                                .feedModel.data![index].procedure
+                                .toString(),
+                            imagePosted: fContro.feedModel.data![index].picture
+                                .toString(),
                             showBlueTick: fContro.feedModel.data![index].staff,
-                            likeCount: fContro.feedModel.data![index].totalNumberOfLikes.toString(),
-                            commentCount: fContro.feedModel.data![index].totalNumberOfComments.toString(),
-                            shareCount: fContro.feedModel.data![index].totalNumberOfBookmarks.toString(),
+                            likeCount: fContro
+                                .feedModel.data![index].totalNumberOfLikes
+                                .toString(),
+                            commentCount: fContro
+                                .feedModel.data![index].totalNumberOfComments
+                                .toString(),
+                            shareCount: fContro
+                                .feedModel.data![index].totalNumberOfBookmarks
+                                .toString(),
                             likePressed: () {
-                              Provider.of<FeedPageController>(context, listen: false)
+                              Provider.of<FeedPageController>(context,
+                                      listen: false)
                                   .likeTapped(itemId, context);
                               setState(() {
-                                Provider.of<FeedPageController>(context, listen: false).fetchFeed(context);
+                                Provider.of<FeedPageController>(context,
+                                        listen: false)
+                                    .fetchFeed(context);
                               });
                             },
                             unlike: () {
                               setState(() {
-                                Provider.of<FeedPageController>(context, listen: false)
+                                Provider.of<FeedPageController>(context,
+                                        listen: false)
                                     .onUnlike(itemId, context);
                               });
                             },
                             comment: () {
-                              Navigator.push(context,
-                                  MaterialPageRoute(builder: (context) => CommentScreen(id: itemId)));
-                            }, bookmark: () { 
-                               Provider.of<FeedPageController>(context, listen: false)
-                                    .postBookmark(fContro.feedModel.data![index].author.toString(),
-                                      itemId.toString(), context);
-                             },
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          CommentScreen(id: itemId)));
+                            },
+                            bookmark: () {
+                              Provider.of<FeedPageController>(context,
+                                      listen: false)
+                                  .postBookmark(
+                                      pro.usernameEmailModel.id.toString(),
+                                      itemId.toString(),
+                                      context);
+                            },
                           ),
                         );
                       });

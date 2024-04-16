@@ -13,6 +13,7 @@ import 'package:recipe_app/presentation/registration/controller/registration_con
 import 'package:recipe_app/presentation/splashscreen/welcom.dart';
 import 'package:recipe_app/presentation/user_profile/controller/user_profile_controller.dart';
 import 'presentation/homepage/controller/home_controller.dart';
+import 'presentation/saved/controller/saved_page_controller.dart';
 
 void main() {
   runApp(MultiProvider(
@@ -32,6 +33,7 @@ void main() {
       ChangeNotifierProvider(create: (context) => ForgotPasswordController()),
       ChangeNotifierProvider(create: (context) => ChefRegistrationController()),
        ChangeNotifierProvider(create: (context) => FeedPageController()),
+        ChangeNotifierProvider(create: (context) => SavedController()),
     ],
     child: const MyApp(),
   ));
