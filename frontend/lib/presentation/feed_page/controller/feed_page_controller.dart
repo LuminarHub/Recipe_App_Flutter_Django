@@ -21,7 +21,8 @@ class FeedPageController extends ChangeNotifier {
         feedModel = FeedModel.fromJson(value);
         isLoading = false;
       } else {
-        AppUtils.oneTimeSnackBar("Fetching Failed", context: context, bgColor: Colors.red);
+        AppUtils.oneTimeSnackBar("Fetching Failed",
+            context: context, bgColor: Colors.red);
       }
       notifyListeners();
     });
@@ -33,7 +34,8 @@ class FeedPageController extends ChangeNotifier {
       if (value["status"] == 1) {
         AppUtils.oneTimeSnackBar(value["message"], context: context);
       } else {
-        AppUtils.oneTimeSnackBar(value["message"], context: context, bgColor: Colors.redAccent);
+        AppUtils.oneTimeSnackBar(value["message"],
+            context: context, bgColor: Colors.redAccent);
       }
     });
   }
@@ -43,12 +45,13 @@ class FeedPageController extends ChangeNotifier {
       if (value["status"] == 1) {
         AppUtils.oneTimeSnackBar(value["message"], context: context);
       } else {
-        AppUtils.oneTimeSnackBar(value["message"], context: context, bgColor: Colors.redAccent);
+        AppUtils.oneTimeSnackBar(value["message"],
+            context: context, bgColor: Colors.redAccent);
       }
     });
   }
 
-   fetchComments(id, context) {
+  fetchComments(id, context) {
     isLoadingComments = true;
     notifyListeners();
     FeedPageService.fetchComments(id).then((value) {
@@ -63,12 +66,26 @@ class FeedPageController extends ChangeNotifier {
   }
 
   void postComment(id, text, context) {
-    var data = {"text": "$text"};//TODO comment json
+    var data = {"text": "$text"}; //TODO comment json
     FeedPageService.postComment(id, data).then((value) {
-      if (value["status"] !=0) {
+      if (value["status"] != 0) {
         AppUtils.oneTimeSnackBar("commented", context: context);
       } else {
-        AppUtils.oneTimeSnackBar("error", context: context, bgColor: Colors.redAccent);
+        AppUtils.oneTimeSnackBar("error",
+            context: context, bgColor: Colors.redAccent);
+      }
+      notifyListeners();
+    });
+  }
+
+  void postBookmark(String authorid, String itemId, BuildContext context) {
+    var data = {"id": itemId};
+    FeedPageService.postBookmark(authorid, data).then((value) {
+      if (value["status"] == 1) {
+        AppUtils.oneTimeSnackBar("commented", context: context);
+      } else {
+        AppUtils.oneTimeSnackBar("error",
+            context: context, bgColor: Colors.redAccent);
       }
       notifyListeners();
     });

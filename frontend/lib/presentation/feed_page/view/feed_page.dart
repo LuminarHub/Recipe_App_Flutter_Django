@@ -78,7 +78,11 @@ class _FeedPageState extends State<FeedPage> {
                             comment: () {
                               Navigator.push(context,
                                   MaterialPageRoute(builder: (context) => CommentScreen(id: itemId)));
-                            },
+                            }, bookmark: () { 
+                               Provider.of<FeedPageController>(context, listen: false)
+                                    .postBookmark(fContro.feedModel.data![index].author.toString(),
+                                      itemId.toString(), context);
+                             },
                           ),
                         );
                       });

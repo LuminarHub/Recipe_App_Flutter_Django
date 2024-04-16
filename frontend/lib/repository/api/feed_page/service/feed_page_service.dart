@@ -74,4 +74,27 @@ class FeedPageService {
       log("$e");
     }
   }
+
+  static Future<dynamic> postBookmark(String authorid, Map<String, String> data) async{
+   try {
+      Future<String?> getAccessToken() async {
+        SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+        String? tokenJsonString = sharedPreferences.getString(AppConfig.loginData);
+        if (tokenJsonString != null) {
+          Map<String, dynamic> tokenData = jsonDecode(tokenJsonString);
+          String? accessToken = tokenData['tokens']['access'];
+          return accessToken;
+        }
+        return null;
+      }
+      String? accessToken = await getAccessToken();
+      var decodedData = ApiHelper.postData(
+          endPoint: "user/profile/$authorid/bookmarks/",
+          body: data,
+          header: {"Authorization": "Bearer $accessToken"});
+      return decodedData;
+    } catch (e) {
+      log("$e");
+    } 
+  }
 }

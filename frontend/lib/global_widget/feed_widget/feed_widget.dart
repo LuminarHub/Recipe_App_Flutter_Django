@@ -19,6 +19,7 @@ class FeedWidget extends StatefulWidget {
   final void Function() likePressed;
   final void Function() unlike;
   final void Function() comment;
+  final void Function() bookmark;
 
   FeedWidget({
     this.profPic,
@@ -31,7 +32,7 @@ class FeedWidget extends StatefulWidget {
     required this.commentCount,
     required this.shareCount,
     this.itemId,
-    required this.likePressed, required this.unlike, required this.comment,
+    required this.likePressed, required this.unlike, required this.comment, required this.bookmark,
   });
 
   @override
@@ -120,7 +121,7 @@ class _FeedWidgetState extends State<FeedWidget> {
                 headerButton(
                     buttonText: "BookMark",
                     buttonIcon: Icons.bookmark_add_outlined,
-                    buttonAction: () {},
+                    buttonAction: widget.bookmark,
                     buttonColor: Colors.orange),
               ],
             ),
