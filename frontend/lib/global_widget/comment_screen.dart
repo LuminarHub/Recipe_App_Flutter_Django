@@ -18,7 +18,8 @@ class CommentScreen extends StatefulWidget {
 
 class _CommentScreenState extends State<CommentScreen> {
   fetchData() {
-    Provider.of<FeedPageController>(context, listen: false).fetchComments(widget.id, context);
+    Provider.of<FeedPageController>(context, listen: false)
+        .fetchComments(widget.id, context);
   }
 
   @override
@@ -26,6 +27,10 @@ class _CommentScreenState extends State<CommentScreen> {
     fetchData();
     getReceivedData();
     super.initState();
+  }
+
+  refresh() {
+    setState(() {});
   }
 
   late SharedPreferences sharedPreferences;
@@ -41,25 +46,32 @@ class _CommentScreenState extends State<CommentScreen> {
           : Scaffold(
               appBar: AppBar(title: Text("Comments")),
               body: RefreshIndicator(
-                onRefresh: () => Provider.of<FeedPageController>(context, listen: false).fetchComments(widget.id, context),
+                onRefresh: () =>
+                    Provider.of<FeedPageController>(context, listen: false)
+                        .fetchComments(widget.id, context),
                 child: ListView.builder(
                     itemCount: controller.commentsModel.data?.length,
                     itemBuilder: (context, index) {
                       return ListTile(
                         leading: CircleAvatar(),
-                        title: Text("${data["id"]}" == "${controller.commentsModel.data?[index].user}"
+                        title: Text("${data["id"]}" ==
+                                "${controller.commentsModel.data?[index].user}"
                             ? "Me"
                             : "User ${controller.commentsModel.data?[index].user}"),
-                        subtitle: Text(controller.commentsModel.data![index].text.toString()),
+                        subtitle: Text(controller
+                            .commentsModel.data![index].text
+                            .toString()),
                       );
                     }),
               ),
               bottomNavigationBar: Padding(
-                padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+                padding: EdgeInsets.only(
+                    bottom: MediaQuery.of(context).viewInsets.bottom),
                 child: Container(
                   margin: EdgeInsets.fromLTRB(20, 0, 20, 20),
                   decoration: BoxDecoration(
-                      border: Border.all(color: Colors.black), borderRadius: BorderRadius.circular(10)),
+                      border: Border.all(color: Colors.black),
+                      borderRadius: BorderRadius.circular(10)),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -67,11 +79,22 @@ class _CommentScreenState extends State<CommentScreen> {
                           width: size.width * .5,
                           child: TextFormField(
                             controller: commentController,
-                            decoration: InputDecoration(focusedBorder: InputBorder.none),
+                            decoration: InputDecoration(
+                                focusedBorder: InputBorder.none),
                           )),
-                      ElevatedButton.icon(onPressed: () {
-                        Provider.of<FeedPageController>(context,listen: false).postComment(widget.id, commentController.text.trim(), context);
-                      }, icon: Icon(Icons.send), label: Text("Comment"))
+                      ElevatedButton.icon(
+                          onPressed: () {
+                            Provider.of<FeedPageController>(context,
+                                    listen: false)
+                                .postComment(widget.id,
+                                    commentController.text.trim(), context);
+                            commentController.clear();
+                            setState(() {
+                              refresh();
+                            });
+                          },
+                          icon: Icon(Icons.send),
+                          label: Text("Comment"))
                     ],
                   ),
                 ),

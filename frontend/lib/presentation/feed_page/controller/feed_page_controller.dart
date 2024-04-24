@@ -82,7 +82,7 @@ class FeedPageController extends ChangeNotifier {
     var data = {"id": itemId};
     FeedPageService.postBookmark(authorid, data).then((value) {
       if (value["status"] == 1) {
-        AppUtils.oneTimeSnackBar("commented", context: context);
+        AppUtils.oneTimeSnackBar("Item Bookmarked Successfully", context: context);
       } else {
         AppUtils.oneTimeSnackBar("error",
             context: context, bgColor: Colors.redAccent);
