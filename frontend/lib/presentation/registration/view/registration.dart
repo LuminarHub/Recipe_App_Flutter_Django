@@ -145,15 +145,15 @@ class _RegistrationPageState extends State<RegistrationPage> {
                 SizedBox(
                   width: 10,
                 ),
-                SelectImageButton(
-                  onPressed: () {
-                    getImage(ImageSource.camera);
-                  },
-                  icon: Icons.camera_alt,
-                  label: "Open Camera",
-                  iconColor: Colors.orange,
-                  labelColor: Colors.orange,
-                ),
+                // SelectImageButton(
+                //   onPressed: () {
+                //     getImage(ImageSource.camera);
+                //   },
+                //   icon: Icons.camera_alt,
+                //   label: "Open Camera",
+                //   iconColor: Colors.orange,
+                //   labelColor: Colors.orange,
+                // ),
                 if (image != null)
                   Container(
                     margin: EdgeInsets.only(left: size.width * .2),
